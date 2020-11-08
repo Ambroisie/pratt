@@ -1,0 +1,31 @@
+---
+kind: pipeline
+name: test correctness
+
+steps:
+  - name: build & check
+    image: oblique/archlinux-yay
+    pull: always
+    commands:
+      - >
+        sudo -u aur yay -Syu --noconfirm --needed
+        base base-devel criterion
+      - make
+      - make check -B
+
+  - name: notify
+    image: plugins/matrix
+    settings:
+      homeserver:
+        from_secret: matrix_homeserver
+      roomid:
+        from_secret: matrix_roomid
+      username:
+        from_secret: matrix_username
+      password:
+        from_secret: matrix_password
+      trigger:
+        status:
+          - failure
+          - success
+...
