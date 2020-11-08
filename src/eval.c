@@ -179,7 +179,8 @@ static bool parse_until(const char **input, int *res, int prio) {
         nul_f *nul_func = ops[tok.kind].nul_func;
         if (!nul_func)
             return false; // Error: not a prefix operator
-        nul_func(input, res, prio);
+        if (!nul_func(input, res, prio))
+            return false; // Error: could not parse right-hand-side
     }
 
     // Do left-loop
