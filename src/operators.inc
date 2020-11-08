@@ -8,12 +8,13 @@
 #endif
 
 // Simple operators
-OP(  PLUS_PLUS, 120, 110, PREFIX_POSTFIX,          ++, '+', '+', 0)
-OP(MINUS_MINUS, 120, 110, PREFIX_POSTFIX,          --, '-', '-', 0)
-OP(        NOT, 120,  -1,         PREFIX,           !, '!', 0)
-OP(    BIT_NOT, 120,  -1,         PREFIX,           ~, '~', 0)
-OP(       PLUS, 110,  90,   PREFIX_INFIX,           +, '+', 0)
-OP(      MINUS, 110,  90,   PREFIX_INFIX,           -, '-', 0)
+OP(  PLUS_PLUS, 130, 120, PREFIX_POSTFIX,          ++, '+', '+', 0)
+OP(MINUS_MINUS, 130, 120, PREFIX_POSTFIX,          --, '-', '-', 0)
+OP(        NOT, 130,  -1,         PREFIX,           !, '!', 0)
+OP(    BIT_NOT, 130,  -1,         PREFIX,           ~, '~', 0)
+OP(       PLUS, 120,  90,   PREFIX_INFIX,           +, '+', 0)
+OP(      MINUS, 120,  90,   PREFIX_INFIX,           -, '-', 0)
+OP(       POWER, -1, 110,          POWER, PLACEHOLDER, '*', '*', 0)
 OP(       TIMES, -1, 100,          INFIX,           *, '*', 0)
 OP(     DIVIDES, -1, 100,          INFIX,           /, '/', 0)
 OP(      MODULO, -1, 100,          INFIX,           %, '%', 0)
@@ -40,6 +41,7 @@ OP(      NUMBER,  0,  -1,         NOT_OP, PLACEHOLDER, 0)
 #undef PREFIX
 #undef PREFIX_INFIX
 #undef INFIX
+#undef POWER
 #undef TERN
 #undef PAREN
 #undef NOT_OP

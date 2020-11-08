@@ -38,6 +38,8 @@ struct token {
     LeftFunc(Name)
 #define INFIX(Name)  \
     LeftFunc(Name)
+#define POWER(Name)  \
+    LeftFunc(Name)
 #define TERN(Name)  \
     LeftFunc(Name)
 #define PAREN(Name) \
@@ -71,6 +73,8 @@ static const struct {
 #define PREFIX_INFIX(Name, NulPrio, LeftPrio, ...)  \
     [Name] = {OP_STRING(__VA_ARGS__), OP_SIZE(__VA_ARGS__), NulPrio, LeftPrio, NulFunc(Name), LeftFunc(Name), },
 #define INFIX(Name, NulPrio, LeftPrio, ...)  \
+    [Name] = {OP_STRING(__VA_ARGS__), OP_SIZE(__VA_ARGS__), NulPrio, LeftPrio, NULL, LeftFunc(Name), },
+#define POWER(Name, NulPrio, LeftPrio, ...)  \
     [Name] = {OP_STRING(__VA_ARGS__), OP_SIZE(__VA_ARGS__), NulPrio, LeftPrio, NULL, LeftFunc(Name), },
 #define TERN(Name, NulPrio, LeftPrio, ...)  \
     [Name] = {OP_STRING(__VA_ARGS__), OP_SIZE(__VA_ARGS__), NulPrio, LeftPrio, NULL, LeftFunc(Name), },
@@ -242,6 +246,21 @@ bool eval_string(const char *input, int *res) {
         if (!parse_until(input, res, LeftPrio)) \
             return false; \
         *res = lhs Operator *res; \
+        return true; \
+    }
+static int my_pow(int lhs, int rhs) {
+    if (!rhs)
+        return 1;
+    int rec = my_pow(lhs * lhs, rhs / 2);
+    if (rhs & 1)
+        rec *= lhs;
+    return rec;
+}
+#define POWER(Name, NulPrio, LeftPrio, Operator) \
+    LeftFunc(Name) { \
+        if (!parse_until(input, res, LeftPrio - 1)) \
+            return false; \
+        *res = my_pow(lhs, *res); \
         return true; \
     }
 #define TERN(Name, NulPrio, LeftPrio, Operator) \
