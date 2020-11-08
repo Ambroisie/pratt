@@ -36,8 +36,10 @@ SUCCESS(divisions, 6 / 3 / 2)
 SUCCESS(modulo, 6 % 5)
 SUCCESS(modulos, 127 % 19 % 3)
 SUCCESS(left_shift, 1 << 3)
+SUCCESS(left_shifts, 1 << 2 << 3)
 SUCCESS(left_shift_not_one, 42 << 3)
 SUCCESS(right_shift, 1024 >> 3)
+SUCCESS(right_shifts, 1 >> 2 >> 3)
 SUCCESS(right_shift_not_one, 1337 >> 3)
 SUCCESS(eq, 1 == 1)
 SUCCESS(neq, 1 != 1)
@@ -61,6 +63,10 @@ SUCCESS(shift_priorities, 1 + 2 << 5 - 3 >> 1)
 SUCCESS(bitwise_priorities, 3241235 ^ 1234 & 4321 | 94)
 SUCCESS(boolean_priorities, 1 == 3 & 1 | 2048)
 SUCCESS(ternary_priorities, 1 == 2 ? 1 << 3 - 1 >> 1 : 42 << 4)
+SUCCESS(ternary_associativity, 1 == 1 ? 1 : 0 == 0 ? 2 : 3)
+// Other operators
+Test(eval_string, power) { do_success("4 ** 3 ** 2", 262144); }
+Test(eval_string, power_explicit) { do_success("4 ** (3 ** 2)", 262144); }
 #pragma GCC diagnostic pop
 
 #define FAILURE(Name, Input) \
