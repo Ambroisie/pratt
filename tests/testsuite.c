@@ -67,6 +67,7 @@ SUCCESS(ternary_associativity, 1 == 1 ? 1 : 0 == 0 ? 2 : 3)
 // Other operators
 Test(eval_string, power) { do_success("4 ** 3 ** 2", 262144); }
 Test(eval_string, power_explicit) { do_success("4 ** (3 ** 2)", 262144); }
+Test(eval_string, power_priority) { do_success("- 2 ** 2", -4); }
 #pragma GCC diagnostic pop
 
 #define FAILURE(Name, Input) \
